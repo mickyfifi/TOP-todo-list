@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webpack Boilerplate</title>
+    <title>Todo List</title>
 </head>
 <body>
-    Webpack Boilerplate
+    <nav>
+        <button class="button-54" id="btn-create-project">Create New Project</button>
+        <div class="list" id="project-list">
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container-header">
+            <h2 id="project-title">default</h2>
+            <button id="btn-add-todo" class="button-54">Add Todo</button>
+            <button id="btn-delete-project" class="button-54">Delete Project</button>
+        </div>
+        <div class="main">
+            <div id="todo-list">
+                
+            </div>
+            <form id="manage-todo">
+                <div class="field-row">
+                    <label>Title:&nbsp;</label>
+                    <input type="text" name="field-title" id="field-title" required />
+                </div>
+                <div class="field-row">
+                    <label>Description:&nbsp;</label>
+                    <textarea id="field-desc" name="field-desc" rows="10" cols="100"></textarea>
+                </div>
+                <div class="field-row">
+                    <label>Due Date:&nbsp;</label>
+                    <input
+                        id="field-due-date"
+                        type="date"
+                        name="field-due-date"
+                        value="2026-01-01" />
+                </div>
+                <div class="field-row">
+                    <label>Priority Level:&nbsp;</label>
+                    <select name="field-priority" id="field-priority">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="button-35" id="btn-manage-todo-back">Back</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="button-35" type="submit" name="submit">
+                </div>
+            </form>
+
+        </div>
+    </div>
 </body>
 </html>

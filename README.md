@@ -1,2 +1,2 @@
-# top-webpack-boilerplate
-webpack boilerplate with webpack-merge from The odin project
+# TOP-todo-list
+Project: Todo List from Full Stack Javascript in the odin project

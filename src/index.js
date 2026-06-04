@@ -1,3 +1,8 @@
 import './styles.css';
+import Project from './Project.js';
+import ProjectUI from './UI/Project.js';
 
-console.log('this is webpack boilerplate');
+const projects = new Map();
+
+const projectUI = new ProjectUI(projects);
+
