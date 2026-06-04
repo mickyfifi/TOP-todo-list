@@ -7,13 +7,13 @@ export default class ProjectUI {
     constructor(projects) {
         this.projects = projects;
         if (this.projects.size == 0) {
-            projects.set('Default', new Project('Default'));
+            this.projects.set('Default', new Project('Default'));
         }
 
         this.selector = '';
         this.select(this.projects.keys().next().value);
 
-        this.todoUI = new TodoUI(projects.get(this.selector).todos);
+        this.todoUI = new TodoUI(this.projects.get(this.selector).todos);
 
         this.onCreate();
         this.onSelect(() => {});
@@ -86,6 +86,7 @@ export default class ProjectUI {
     select(key) {
         this.selector = key;
         document.querySelector('#project-title').textContent = this.selector;
+        this.todoUI = new TodoUI(this.projects.get(this.selector).todos);
     }
 
     remove(key) {

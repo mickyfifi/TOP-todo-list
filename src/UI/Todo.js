@@ -8,7 +8,7 @@ export default class TodoUI {
         this.todos = todos;
         this.todoListTab = document.querySelector('#todo-list');
         this.manageTodoTab = document.querySelector('#manage-todo');
-        this.todoListTab.style.display = 'none';
+        this.manageTodoTab.style.display = 'none';
 
         this.bindButtons();
         this.refresh();
@@ -17,7 +17,9 @@ export default class TodoUI {
     refresh() {
         this.todoListTab.replaceChildren();
 
-        for (const [index, todo] of this.todos.entries()) {
+        const todos = this.todos.sort((a, b) => a.title.localeCompare(b.title));
+
+        for (const [index, todo] of todos.entries()) {
             const todoElement = document.createElement('div');
 
             todoElement.classList.add('todo');
@@ -76,29 +78,64 @@ export default class TodoUI {
         const descField = document.querySelector('#field-desc');
         const dueDateField = document.querySelector('#field-due-date');
         const priorityField = document.querySelector('#field-priority');
-        
+
+        const deleteBtn = document.querySelector('#btn-delete-todo');
+
         if (!todo) {
             this.manageTodoTab.reset();
+            deleteBtn.style.display = 'none';
         }
-
-        // const formDataelement = document.querySelector('#manage-todo');
-        // const formData = new FormData(this.manageTodoTab);
-        // console.log(formData);  
 
         if (todo) {
             titleField.value = todo.title;
             descField.value = todo.description;
             dueDateField.value = format(todo.dueDate, "yyyy-MM-dd");
             priorityField.value = todo.priority;
+
+            deleteBtn.style.display = 'block';
+
+            deleteBtn.onclick = (e) => {
+                e.preventDefault();
+
+                const index = this.todos.indexOf(todo);
+
+                this.todos.splice(index, 1);
+                console.log(index);
+
+                this.manageTodoTab.style.display = 'none';
+                this.todoListTab.style.display = 'grid';
+                this.refresh();
+
+            }; 
+
         }
 
-        this.manageTodoTab.addEventListener("submit", (e) => {
+        this.manageTodoTab.onsubmit =  (e) => {
             e.preventDefault(); // stop page reload
 
             const formData = new FormData(this.manageTodoTab);
 
+            const title = formData.get('field-title');
+            const desc = formData.get('field-desc');
+            const dueDate = new Date(formData.get('field-due-date'));
+            const priority = parseInt(formData.get('field-priority'));
+
+            if (!todo) {
+                this.todos.push(new Todo(title, desc, dueDate, priority));
+            }
+
+            if (todo) {
+                todo.title = title;
+                todo.desc = desc;
+                todo.dueDate = dueDate;
+                todo.priority = priority;
+            }
+
+            this.manageTodoTab.style.display = 'none';
+            this.todoListTab.style.display = 'grid';
+            this.refresh();
             
-        });
+        };
 
     }
 

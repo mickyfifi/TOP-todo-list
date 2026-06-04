@@ -186,3 +186,8 @@ nav .list {
 #manage-todo select {
   font-size: 16px;
 }
+
+#form-buttons {
+  display: flex;
+  gap: 24px;
+}
