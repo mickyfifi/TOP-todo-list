@@ -1,6 +1,7 @@
 Local Storage /
 Project /
 Project - Make it Class /
-Todo
+Todo /
 Todo GUI Grid /
-Todo GUI Priority
+Todo GUI Priority /
+LocalStorage

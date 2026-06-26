@@ -4,16 +4,16 @@ import TodoUI from "./Todo.js";
 export default class ProjectUI {
 
     // projects - new Map(string, Project)
-    constructor(projects) {
+    constructor(projects, dataManager) {
         this.projects = projects;
+        this.dataManager = dataManager;
         if (this.projects.size == 0) {
             this.projects.set('Default', new Project('Default'));
         }
 
         this.selector = '';
+        this.todoUI = null;
         this.select(this.projects.keys().next().value);
-
-        this.todoUI = new TodoUI(this.projects.get(this.selector).todos);
 
         this.onCreate();
         this.onSelect(() => {});
@@ -86,7 +86,7 @@ export default class ProjectUI {
     select(key) {
         this.selector = key;
         document.querySelector('#project-title').textContent = this.selector;
-        this.todoUI = new TodoUI(this.projects.get(this.selector).todos);
+        this.todoUI = new TodoUI(this.projects.get(this.selector), this.dataManager);
     }
 
     remove(key) {

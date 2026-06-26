@@ -1,14 +1,19 @@
 import Todo from "../Todo.js";
+import Project from "../Project.js";
 import { format } from "date-fns";
+import DataManager from "../DataManager.js";
 
 export default class TodoUI {
 
-    // todos - array
-    constructor(todos) {
-        this.todos = todos;
+    // project - Project class
+    constructor(project, dataManager) {
+        this.project = project;
+        this.todos = project.todos;
+        this.dataManager = dataManager;
         this.todoListTab = document.querySelector('#todo-list');
         this.manageTodoTab = document.querySelector('#manage-todo');
         this.manageTodoTab.style.display = 'none';
+        
 
         this.bindButtons();
         this.refresh();
@@ -100,7 +105,11 @@ export default class TodoUI {
                 const index = this.todos.indexOf(todo);
 
                 this.todos.splice(index, 1);
-                console.log(index);
+
+                // save
+                // const stringSave = {'this.project.name' : JSON.stringify(this.todos)};
+                // localStorage.setItem('projects', JSON.stringify(stringSave));
+                this.dataManager.save();
 
                 this.manageTodoTab.style.display = 'none';
                 this.todoListTab.style.display = 'grid';
@@ -130,6 +139,11 @@ export default class TodoUI {
                 todo.dueDate = dueDate;
                 todo.priority = priority;
             }
+
+            //save
+            // const stringSave = {'this.project.name' : JSON.stringify(this.todos)};
+            // localStorage.setItem('projects', JSON.stringify(stringSave));
+            this.dataManager.save();
 
             this.manageTodoTab.style.display = 'none';
             this.todoListTab.style.display = 'grid';
