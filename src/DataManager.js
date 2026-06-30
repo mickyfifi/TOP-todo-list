@@ -50,4 +50,10 @@ export default class DataManager {
         return projects;
     }
 
+    clear() {
+        localStorage.removeItem(this.name);
+        localStorage.removeItem(this.nameSelector);
+        this.projects = new Map();
+    }
+
 }

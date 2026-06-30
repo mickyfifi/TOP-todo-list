@@ -24,6 +24,7 @@ export default class ProjectUI {
         this.onCreate();
         this.onSelect(() => {});
         this.onRemove();
+        this.onClear();
         this.refresh();
     }
 
@@ -78,7 +79,6 @@ export default class ProjectUI {
             }
 
             this.select(event.target.textContent);
-
             callbackFn(event.target.textContent);
         });
 
@@ -90,6 +90,26 @@ export default class ProjectUI {
         button.addEventListener('click', () => {
             this.remove(this.selector);
         });
+    }
+
+    onClear() {
+        const button = document.querySelector('#btn-clear-all-projects');
+
+        button.addEventListener('click', ()=> {
+            this.clear();
+        });
+    }
+
+    clear() {
+        if(!confirm('Are you sure you want to delete all?')) {
+            return
+        }
+
+        this.dataManager.clear();
+        this.projects = this.dataManager.projects;
+        this.projects.set('Default', new Project('Default'));
+        this.select(this.projects.keys().next().value);
+        this.refresh();
     }
 
     select(key) {
