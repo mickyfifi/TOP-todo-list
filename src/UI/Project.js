@@ -13,7 +13,13 @@ export default class ProjectUI {
 
         this.selector = '';
         this.todoUI = null;
-        this.select(this.projects.keys().next().value);
+
+        let selected = this.dataManager.loadSelector();
+        if (!selected || !this.projects.has(selected)) {
+            selected = this.projects.keys().next().value;
+        }
+
+        this.select(selected);
 
         this.onCreate();
         this.onSelect(() => {});
@@ -48,13 +54,16 @@ export default class ProjectUI {
 
         this.projects.set(name, new Project(name));
 
+        this.dataManager.save();
+
+        return name;
     }
 
     onCreate() {
         const buttonCreateProject = document.querySelector('#btn-create-project');
 
         buttonCreateProject.addEventListener('click', () => {
-            this.create();
+            this.select(this.create());
             this.refresh();
         });
     }
@@ -84,7 +93,12 @@ export default class ProjectUI {
     }
 
     select(key) {
+        if (!this.projects.has(key)) {
+            return;
+        }
+
         this.selector = key;
+        this.dataManager.saveSelector(key);
         document.querySelector('#project-title').textContent = this.selector;
         this.todoUI = new TodoUI(this.projects.get(this.selector), this.dataManager);
     }
@@ -104,6 +118,8 @@ export default class ProjectUI {
         if (this.selector == key) {
             this.select(this.projects.keys().next().value);
         }
+
+        this.dataManager.save();
 
         this.refresh();
         

@@ -1,13 +1,17 @@
+import Project from "./Project.js";
+
 export default class DataManager {
 
     // projects - new Map(string, Project)
     constructor(projects) {
         this.name = 'projects';
         this.projects = projects;
+        this.nameSelector = 'selector';
     }
 
     save() {
         localStorage.setItem(this.name, JSON.stringify(Object.fromEntries(this.projects)) );
+        return true;
     }
 
     load() {
@@ -15,19 +19,35 @@ export default class DataManager {
         return data;
     }
 
-    loadToMap() {
-        const data = this.load();
-        console.log(data);
-        const parsedData = JSON.parse(data);
-        console.log(parsedData);
-
-        
-        const projects = new Map(Object.fromEntries(parsedData));
-        return projects;
+    saveSelector(selectedProject) {
+        localStorage.setItem(this.nameSelector, selectedProject);
     }
 
-    // saveTodo() {
-    //     localStorage.setItem(this.name, JSON.stringify(Object.fromEntries(projects)) );
-    // }
+    loadSelector() {
+        const data = localStorage.getItem(this.nameSelector);
+        return data;
+    }
+
+    getMap() {
+        const data = this.load();
+
+        if (!data) {
+            return new Map();
+        }
+
+        console.log(data);
+        const parsedData = JSON.parse(data);
+
+        const projects = new Map();
+        for (const [key, value] of Object.entries(parsedData)) {
+            const project = new Project(key);
+
+            project.addJsonArrayToTodos(value.todos)
+
+            projects.set(key, project)
+        }
+                
+        return projects;
+    }
 
 }

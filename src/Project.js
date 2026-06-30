@@ -7,4 +7,10 @@ export default class Project {
         this.todos = [];
     }
 
+    addJsonArrayToTodos(arr) {
+        for (const value of arr) {
+            this.todos.push(Object.assign(new Todo, value));
+        }
+    }
+
 }
